@@ -1,5 +1,6 @@
 import localFont from "next/font/local";
 import "./globals.css";
+import BottonBar from "@/components/ui/bottonBar";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,6 +25,9 @@ export default function RootLayout({ children }) {
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         {children}
+        <div className="fixed bottom-0 w-full z-10 ">
+          <BottonBar />
+        </div>
       </body>
     </html>
   );

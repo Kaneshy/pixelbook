@@ -1,6 +1,8 @@
 import localFont from "next/font/local";
 import "./globals.css";
 import BottonBar from "@/components/ui/bottonBar";
+import Navbar from "@/components/ui/navbar";
+import CinemaPage from "@/components/popups/cinema";
 
 const geistSans = localFont({
   src: "./fonts/GeistVF.woff",
@@ -24,7 +26,14 @@ export default function RootLayout({ children }) {
       <body
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
-        {children}
+        <Navbar />
+        <CinemaPage />
+        <main>
+          {children}
+        </main>
+        <footer className="p-4 mt-48 bg-black text-zinc-500 w-full flex justify-center text-center">
+          pixelbook @
+        </footer>
         <div className="fixed bottom-0 w-full z-10 ">
           <BottonBar />
         </div>

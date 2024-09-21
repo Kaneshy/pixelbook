@@ -9,7 +9,7 @@ const CinemaPage = () => {
     return (
         <main >
             <button onClick={() => setisopen(!isopen)}
-                className='fixed bottom-24 right-8 p-4 bg-[#C5705D] hover:bg-[#ff9982] rounded-xl bg-red'>
+                className='fixed bottom-24 z-50 right-8 p-4 bg-[#C5705D] hover:bg-[#ff9982] rounded-xl bg-red'>
                  <FaPlus size={14}/>
             </button>
             {isopen && (

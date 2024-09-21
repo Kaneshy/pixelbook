@@ -212,6 +212,7 @@ body {
 }
 
 
+
 .scrollbar-b::-webkit-scrollbar {
   width: 12px; /* Width of the scrollbar */
 }
@@ -232,4 +233,153 @@ body {
 /* Optional: Hover effect on scrollbar thumb */
 .scrollbar-b::-webkit-scrollbar-thumb:hover {
   background-color: #774d43; /* Lighter gray on hover */
+}
+
+
+.grid-b {
+  width: 100%;
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  margin: 0 auto;
+  gap: 50px;
+  row-gap: 50px;
+}
+
+.max-w-a {
+  max-width: 1400px;
+  margin: 0 auto;
+}
+
+
+.s {
+  transition: transform 1s ease;
+}
+
+.s:hover {
+  animation: rotateAnimation 1s ease-in-out;
+}
+
+
+@keyframes rotateAnimation {
+  30% {
+    transform: rotate3d(1, 1, 1, 10deg);
+  }
+  60% {
+    transform: rotate3d(1, 1, 1, -10deg);
+  }
+  100% {
+    transform: rotate3d(1, 1, 1, 0deg);
+  }
+}
+
+.cg {
+  transform: rotateX(0deg) rotateY(5deg) rotateZ(0deg);
+}
+
+
+
+.container {
+  perspective:200px; /* Adjust the perspective value for depth effect */
+}
+
+
+
+.shadow-a {
+  -webkit-box-shadow: 10px 15px 21px 7px rgba(0, 0, 0, 0.68);
+  -moz-box-shadow: 10px 15px 21px 7px rgba(0, 0, 0, 0.68);
+  box-shadow: 10px 15px 21px 7px rgba(0, 0, 0, 0.68);
+}
+
+.shadow-b {
+  filter: drop-shadow(15px 10px 10px #999999);
+}
+
+.shadow-c {
+  filter: drop-shadow(-20px 10px 10px #616161);
+}
+
+.ck {
+  transform: rotateX(0deg) rotateY(-4deg) rotateZ(0deg) translateX(5px);
+}
+
+@keyframes grabAnimation {
+  30% {
+    transform: rotateX(0deg) rotateY(0deg) rotateZ(0deg)
+  }
+  60% {
+    transform: rotate3d(1, 1, 1, -10deg);
+  }
+  100% {
+    transform: rotate3d(1, 1, 1, 0deg);
+  }
+}
+
+
+
+
+input[type="range"] {
+  -webkit-appearance: none; /* Remove default styling */
+  width: 100%;
+  height: 8px;
+  background: #d1d5db; /* Light gray background for the track */
+  border-radius: 5px;
+  outline: none;
+  transition: background 0.3s;
+  cursor: pointer;
+}
+
+/* Track styles */
+input[type="range"]::-webkit-slider-runnable-track {
+  height: 8px;
+  background: #72757a;
+  border-radius: 5px;
+}
+
+input[type="range"]:hover::-webkit-slider-runnable-track {
+  background: #0a0066; /* Light red on hover */
+}
+
+/* Thumb (the draggable circle) styles */
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  width: 18px;
+  height: 20px;
+  background: #0a0066; /* Dark red thumb */
+  cursor: pointer;
+  transition: background 0.3s;
+}
+
+input[type="range"]:hover::-webkit-slider-thumb {
+  background: #0a0066; /* Lighter red thumb on hover */
+}
+
+/* Focus styles */
+input[type="range"]:focus {
+  outline: none;
+}
+
+input[type="range"]:focus::-webkit-slider-thumb {
+  background: #0a0066; /* Even darker red when focused */
+}
+
+.eSyDvA {
+  font-size: 0.75rem;
+  line-height: 1rem;
+  font-weight: 400;
+  background: none;
+  border: none;
+  color: rgb(249, 250, 251);
+  box-shadow: rgb(20, 24, 30) 0px 0px 0px 100px inset;
+  unicode-bidi: plaintext;
+}
+
+input[type="color"] {
+	border: none;
+	height: 32px;
+}
+input[type="color"]::-webkit-color-swatch-wrapper {
+	padding: 0;
+}
+input[type="color"]::-webkit-color-swatch {
+	border: none;
 }

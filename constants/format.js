@@ -27,6 +27,10 @@ export const bookGenres = [
             "Poetry",
             "Crime",
             "Drama",
+            "Gothic",
+            "bonds and connections ",
+            "Children"
+
 
         ],
         science: [
@@ -42,6 +46,7 @@ export const bookGenres = [
             "Psychology",
             "Genetics",
             "Neuroscience",
+
         ]
     }
 
@@ -105,3 +110,5 @@ export const bottonBarC = [
     }
 
 ]
+
+

@@ -3,78 +3,140 @@ import cloudinary from 'cloudinary'
 import { uploadImageToCloudinary } from './cloudinary-actions';
 import Books from '../models/Books';
 import { connectToDB } from '../mongoose';
-// import Users from "@/libs/models/User";
-// import Tags from "@/libs/models/Tag";
-// import { connectToDB } from "@/libs/mongoose";
-// import Websites from '@/libs/models/Website';
 
 
+export const FetchBook = async (bookId) => {
+    console.log('Fetching book...', bookId);
+    
+    await connectToDB();
 
-export const addnewcinema = async (formData, bookCldinfo, selectedClothing) => {
-    const title = formData.get('title');
-    const autor = formData.get('autor');
-    const image = formData.get('image');
-    const language = formData.get('language');
-    const condition = formData.get('condition');
-    const summary = formData.get('summary');
-    let coverurl
+    try {
+        console.log('Running query');
+        const book = await Books.findById(bookId).lean(); // Get plain JS object
 
-    console.log(333, image.size)
+        if (!book) {
+            throw new Error('Book not found');
+        }
+        const data = JSON.parse(JSON.stringify(book))
+        return data; // Return the transformed book
+    } catch (err) {
+        console.log(err.message);
+        return NextResponse.json({ message: 'Error fetching book', error: err.message }, { status: 500 });
+    }
+};
+
+export const FetchAllBooks = async () => {
+    console.log('Fetching books...');
+    
+    await connectToDB();
+
+    try {
+        console.log('Running query');
+        const books = await Books.find().sort({ title: 1 }).lean(); // Use .lean() to get plain JS objects
+
+        // Transform each book document to ensure _id and date fields are plain values
+        const transformedBooks = books.map(book => ({
+            ...book,
+            _id: book._id.toString(), // Convert ObjectId to string
+            createdAt: book.createdAt ? book.createdAt.toISOString() : null, // Convert Date to string
+            updatedAt: book.updatedAt ? book.updatedAt.toISOString() : null // Convert Date to string
+        }));
+
+        console.log(30, transformedBooks);
+        return transformedBooks; // Return plain, serialized data
+    } catch (err) {
+        console.log(err.message);
+        return NextResponse.json({ message: 'Error fetching books', error: err.message }, { status: 500 });
+    }
+};
+
+
+export const addnewcinema = async (formData, bookCldinfo, selectedClothing, bookversions, colorB, colorC) => {
+    // Destructure form data
+    const {
+        title,
+        author,
+        image,
+        language,
+        condition,
+        series,
+        summary,
+    } = Object.fromEntries(formData.entries());
+
+
+    let links = formData.getAll('link').filter(item => item !== '');
+    // Ensure links is always an array
+    if (links.length === 0) {
+        links = []; // No links provided
+    }
+
+    const pdflinks = links.filter(file => file.endsWith('.pdf'));
+    const pdfFiles = bookversions.filter(file => file.endsWith('.pdf'));
+
+    const epublinks = links.filter(file => file.endsWith('.epub'));
+    const epubFiles = bookversions.filter(file => file.endsWith('.epub'));
+
+    const moreLinks = links.filter(file => !file.endsWith('.pdf') && !file.endsWith('.epub'));
+
+    // Combine PDF and EPUB arrays
+    const allPDFs = [...pdflinks, ...pdfFiles];
+    const allEPUBs = [...epublinks, ...epubFiles];
+
+    let coverUrl;
+
     if (image.size === 0) {
-        coverurl  = bookCldinfo.secure_url.replace(".pdf", ".jpg");
-        console.log(616, coverurl)
+        coverUrl = bookCldinfo.secure_url.replace(".pdf", ".jpg");
+        console.log(616, coverUrl);
     } else {
-        coverurl = await uploadImageToCloudinary(image);
+        try {
+            coverUrl = await uploadImageToCloudinary(image);
+        } catch (err) {
+            console.error('Error uploading image to Cloudinary:', err.message);
+            return null; // Handle image upload failure
+        }
     }
 
 
-    const bookpublic_id = bookCldinfo.public_id
-    const booksecureUrl = bookCldinfo.secure_url
-    const bookpages = bookCldinfo.pages
-    const booksize = bookCldinfo.bytes
-    const genres = selectedClothing
+    const {
+        public_id: bookPublicId,
+        secure_url: bookSecureUrl,
+        pages: bookPages,
+        bytes: bookSize,
+    } = bookCldinfo;
+
+    const genres = selectedClothing;
 
     await connectToDB(); // Ensure database connection
 
-    if (coverurl) {
-        try {
-            // Wait for the image to be uploaded to Cloudinary
-            try {
-                // After successful image upload, create the user in MongoDB
-                const newUser = await Books.create({
-                    title: title,
-                    author: autor,
-                    coverurl: coverurl, // Save the Cloudinary image URL
-                    language: language, // Save the link
-                    condition: condition, // Save the link
-                    summary: summary, // Save the link
-                    genres: genres, // Save the link
-                    bookdata: {
-                        public_id: bookpublic_id, // Save the link
-                        secure_url: booksecureUrl, // Save the link
-                        pages: bookpages, //
-                        size: booksize, //
-                    }
-
-                });
-
-                console.log('New user created:', newUser);
-
-                return true; // Return the newly created user
-            } catch (err) {
-                console.log('Error creating user:', err.message);
-                return null; // Handle the error accordingly
+    try {
+        const newBook = await Books.create({
+            title,
+            author,
+            coverurl: coverUrl, // Save the Cloudinary image URL
+            language,
+            condition,
+            summary,
+            genres,
+            versions: allPDFs,
+            links:moreLinks,
+            series,
+            colors: {
+                colorB,
+                colorC,
+            },
+            epublinks: allEPUBs,
+            bookdata: {
+                public_id: bookPublicId,
+                secure_url: bookSecureUrl,
+                pages: bookPages,
+                size: bookSize,
             }
+        });
 
-        } catch (err) {
-            console.log('Error uploading image to Cloudinary:', err.message);
-            return null; // Handle image upload failure accordingly
-        }
-    } else if (image) {
-
+        console.log('New book created:', newBook);
+        return true; // Indicate success
+    } catch (err) {
+        console.error('Error creating book:', err.message);
+        return null; // Handle error accordingly
     }
-
-    console.log('Form data:', title, desc);
-
-
 };

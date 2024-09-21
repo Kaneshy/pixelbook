@@ -3,7 +3,7 @@ import { CldUploadWidget } from 'next-cloudinary';
 import { useEffect, useState } from 'react';
 import UploadWidgetCdl from './UploadWidget';
 
-const WidgetTags = ({bookCldinfo, setbookCldinfo}) => {
+const WidgetTags = ({setbookCldinfo, setbookversions, conterG}) => {
 
     return (
         <div className='flex items-center justify-center'> 
@@ -13,7 +13,13 @@ const WidgetTags = ({bookCldinfo, setbookCldinfo}) => {
                 }}
                 uploadPreset="library"
                 onSuccess={(result, { widget }) => {
-                    setbookCldinfo(result?.info);  // { public_id, secure_url, etc }
+                    if(conterG === 1) {
+                        console.log(result?.info)
+                        setbookCldinfo(result?.info);  // { public_id, secure_url, etc }
+                        setbookversions((prevVersions) => [...prevVersions, result?.info.secure_url]);
+                    } else {
+                        setbookversions((prevVersions) => [...prevVersions, result?.info.secure_url]);
+                    }
                 }}
             >
                 {({ open }) => {

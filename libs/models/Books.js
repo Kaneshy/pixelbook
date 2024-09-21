@@ -26,22 +26,38 @@ const BooksSchema = new mongoose.Schema({
         type: [String], // Array of strings for genres
         required: true,
     },
+    versions: {
+        type: [String]
+    },
+    series: {
+        type: String,
+    },
+    links: {
+        type: [String]
+    },
+    epublinks: {
+        type: [String]
+    },
+    colors: {
+        colorB: {
+            type: String
+        },
+        colorC: {
+            type: String
+        }
+    },
     bookdata: {
         public_id: {
             type: String,
-            required: true,
         },
         secure_url: {
             type: String,
-            required: true,
         },
         pages: {
             type: Number, // Number of pages, assuming it's numeric
-            required: true,
         },
         size: {
             type: Number, // Size can stay as string if it's more descriptive
-            required: true,
         }
     }
 }, { timestamps: true });
@@ -52,3 +68,13 @@ const Books = mongoose.models && mongoose.models.Books
     : mongoose.model('Books', BooksSchema);
 
 export default Books;
+
+
+versions: [
+    {
+        id: 232424,
+        link: '',
+        desc: '',
+        page: ''
+    }
+]

@@ -2,9 +2,9 @@
 import { addnewcinema } from '@/libs/actions/db-actions';
 import React, { useEffect, useRef, useState } from 'react'
 import { IoMdClose } from "react-icons/io";
-import WidgetTags from '../widgetTags';
 import { bookGenres } from '@/constants/format';
 import { IoAdd } from "react-icons/io5";
+import WidgetTags from '../widgetTags';
 
 
 
@@ -18,9 +18,6 @@ const Cinemapopup = ({ isopen, setisopen }) => {
     const [selectedClothing, setSelectedClothing] = useState([]);
     const [conterG, setconterG] = useState(1)
     const [openIndexes, setOpenIndexes] = useState(Array(conterG).fill(false));
-    const [colorB, setcolorB] = useState('#eeeeee')
-    const [colorC, setcolorC] = useState('#c9c9c9')
-    const [texta, settexta] = useState('#eeeeee')
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
@@ -39,6 +36,16 @@ const Cinemapopup = ({ isopen, setisopen }) => {
     useEffect(() => {
         console.log(conterG, bookversions)
     }, [conterG])
+
+    useEffect(() => {
+      
+        
+    
+      return () => {
+        second
+      }
+    }, [third])
+    
 
 
 
@@ -59,7 +66,7 @@ const Cinemapopup = ({ isopen, setisopen }) => {
     }, [setisopen]);
 
     const sendDataActions = async (formData) => {
-        const res = await addnewcinema(formData, bookCldinfo, selectedClothing, bookversions, colorB, colorC)
+        const res = await addnewcinema(formData, bookCldinfo, selectedClothing, bookversions)
     }
 
 
@@ -82,31 +89,6 @@ const Cinemapopup = ({ isopen, setisopen }) => {
     };
 
 
-    const handleonchangecolor = (e) => {
-        console.log(e.target.value)
-        setcolorB(e.target.value)
-    }
-    const handleonchangecolorb = (e) => {
-        console.log(e.target.value)
-        setcolorC(e.target.value)
-    }
-
-    const handleonchantext = (e) => {
-        handleonchangecolor(e)
-        handleonchangecolorb(e)
-        console.log(e.target.value)
-        settexta(e.target.value)
-    }
-
-    useEffect(() => {
-
-    }, [colorB, colorC])
-
-    useEffect(() => {
-
-    }, [texta])
-
-
     return (
         <div className="fixed inset-0 bg-black bg-opacity-50 flex justify-center items-center z-50 overflow-auto">
             <form
@@ -124,7 +106,7 @@ const Cinemapopup = ({ isopen, setisopen }) => {
 
 
                 {Array.from({ length: conterG }).map((_, index) => (
-                    <div key={index} className='flex flex-col p-2 border border-slate-400 '>
+                    <div key={index} className='flex flex-col'>
                         <label className="uppercase nerko-one-regular">Book (pdf):</label>
                         {bookCldinfo.display_name && (
                             <div className='w-full p-2 text-center rounded-lg bg-[#f7dfc9]'>{bookCldinfo.display_name}</div>
@@ -165,33 +147,9 @@ const Cinemapopup = ({ isopen, setisopen }) => {
 
 
 
-                <div className='flex flex-col gap-4 w-full'>
+                <div className='flex flex-col gap-4'>
                     {previewImage && (
-                        <div
-                            className='flex s justify-center w-full  container '>
-                            <div className='flex relative shadow-c ck cc'>
-                                <div
-                                    style={{
-                                        background: `linear-gradient(90deg, ${colorB} 0%, ${colorC} 10%)`,
-                                    }}
-                                    className=' p-2 rounded-l- h-full  '></div>
-                                <div
-                                    style={{ background: `linear-gradient(90deg, ${colorB} 80%, ${colorC} 100%)` }}
-                                    className='p-1  h-full bg-[#dedede]'></div>
-                                <div
-                                    style={{ background: `linear-gradient(90deg, ${colorB} 0%, ${colorC} 10%)` }}
-                                    className='p-[2px]  h-full bg-[#adadad]'></div>
-                            </div>
-                            <div
-                                style={{ backgroundColor: `${colorB}` }}
-                                className={`shadow-b m-[8px] relative rounded-l-sm aspect-r-a  bg-[#661111] cg `}>
-
-                                <img
-                                    className='p-1  aspect-r-a  h-full max-h-[350px] w-full  '
-                                    src={previewImage} alt="" />
-                            </div>
-
-                        </div>
+                        <img src={previewImage} alt="Selected" className="max-w-full h-auto rounded-md shadow-lg mb-4" />
                     )}
                     <div className='w-full flex flex-col gap-4'>
                         <label
@@ -213,30 +171,6 @@ const Cinemapopup = ({ isopen, setisopen }) => {
                         </div>
                     </div>
                 </div>
-
-                <section className='text-sm flex flex-col gap-4 right-2 '>
-                    <label className="uppercase nerko-one-regular">Select colors:</label>
-                    <div className='flex gap-2 items-center' >
-                        <input
-                            placeholder='#0000'
-                            onChange={handleonchantext}
-                            className='eSyDvA' type="text" />
-
-                    </div>
-
-                    <div className='flex justify-evenly p-4 bg-black'>
-                        <input
-                            className=' bg-black'
-                            onChange={handleonchangecolor}
-                            type="color"
-                            value={texta}
-                        />
-                        <input
-                            onChange={handleonchangecolorb}
-                            value={texta}
-                            type="color" name="" id="" />
-                    </div>
-                </section>
 
 
 

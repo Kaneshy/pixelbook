@@ -4,7 +4,7 @@ import PdfViewer from '@/components/pdf/pdfviewer'
 import { FetchBook } from '@/libs/actions/db-actions'
 import React, { useEffect, useState } from 'react'
 
-const page = ({ params }) => {
+const BookPage = ({ params }) => {
 
     const [book, setbook] = useState([])
     const [pdfversion, setpdfversion] = useState('')
@@ -68,9 +68,10 @@ const page = ({ params }) => {
                                 {book.versions && book.versions.map((x, i) => {
                                     return (
                                         <button
+                                            key={`book${i}`}
                                             onClick={() => setpdfversion(x)}
                                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                            <p>PDF {i+1}</p>
+                                            <p>PDF {i + 1}</p>
                                         </button>
                                     )
                                 })}
@@ -83,10 +84,11 @@ const page = ({ params }) => {
                                 {book.epublinks && book.epublinks?.map((x, i) => {
                                     return (
                                         <a
+                                            key={`epublinks${i}`}
                                             target='_blank'
                                             href={x}
                                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                            <p>epub {i+1}</p>
+                                            <p>epub {i + 1}</p>
                                         </a>
 
                                     )
@@ -99,10 +101,11 @@ const page = ({ params }) => {
                                 {book.links && book.links?.map((x, i) => {
                                     return (
                                         <a
+                                            key={`links${i}`}
                                             target='_blank'
                                             href={x}
                                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                            <p>Drive {i+1}</p>
+                                            <p>Drive {i + 1}</p>
                                         </a>
 
                                     )
@@ -131,4 +134,4 @@ const page = ({ params }) => {
     )
 }
 
-export default page
+export default BookPage

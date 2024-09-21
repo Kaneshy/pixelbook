@@ -26,7 +26,9 @@ const Allbook = () => {
                 <section className="grid-b p-4 ">
                     {books.map((x, i) => {
                         return (
-                            <div className="flex flex-col gap-4 items-center ">
+                            <div 
+                            key={`book${i}`}
+                            className="flex flex-col gap-4 items-center ">
                                 <div className='p-4 s relative flex justify-center items-center '>
                                     <div
                                         style={{ background: `linear-gradient(90deg, ${x.colors?.colorB} 20%, ${x.colors?.colorC} 80%)` }}

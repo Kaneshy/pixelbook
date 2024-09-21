@@ -66,8 +66,8 @@ const BookPage = ({ params }) => {
                                         <button
                                             key={`book${i}`}
                                             onClick={() => setpdfversion(x)}
-                                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
-                                            <p>PDF {i + 1}</p>
+                                            className="bg-blue-600  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            <p>pdf {i + 1}</p>
                                         </button>
                                     )
                                 })}
@@ -83,7 +83,7 @@ const BookPage = ({ params }) => {
                                             key={`epublinks${i}`}
                                             target='_blank'
                                             href={x}
-                                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            className="bg-blue-600 text-sm hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                             <p>epub {i + 1}</p>
                                         </a>
                                     )
@@ -99,7 +99,7 @@ const BookPage = ({ params }) => {
                                             key={`links${i}`}
                                             target='_blank'
                                             href={x}
-                                            className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            className="bg-blue-600 text-sm hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                             <p>Drive {i + 1}</p>
                                         </a>
                                     )

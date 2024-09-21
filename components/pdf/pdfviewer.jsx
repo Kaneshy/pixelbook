@@ -1,9 +1,7 @@
 import { useState, useEffect, useRef, useCallback } from "react";
 import * as pdfjsLib from "pdfjs-dist/webpack"; // For bundlers like Webpack
-import "pdfjs-dist/web/pdf_viewer.css"; // Optional
 import { PiBookOpenText } from "react-icons/pi";
 import { IoIosArrowBack } from "react-icons/io";
-import { IoIosArrowForward } from "react-icons/io";
 
 
 

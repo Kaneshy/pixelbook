@@ -6,28 +6,24 @@ import React, { useEffect, useState } from 'react'
 
 const BookPage = ({ params }) => {
 
-    const [book, setbook] = useState([])
+    const [book, setbook] = useState({})
     const [pdfversion, setpdfversion] = useState('')
 
     useEffect(() => {
         const fetchbook = async () => {
             const res = await FetchBook(params.id)
             setbook(res)
-            setpdfversion(res.versions[0])
-            console.log(res.versions[0])
+            setpdfversion(res.versions && res.versions.length > 0 ? res.versions[0] : '')
+            console.log(res.versions && res.versions[0])
             console.log(res)
         }
         fetchbook()
-    }, [])
-
-
-
+    }, [params.id])
 
     return (
-        <main className='w-full min-h-screen  bg-black'>
+        <main className='w-full min-h-screen bg-black'>
 
-            <section className='flex '>
-
+            <section className='flex'>
                 <div>
                     {book.colors && (
                         <Bookthreed colorB={book.colors.colorB} colorC={book.colors.colorC} coverurl={book.coverurl} />
@@ -90,7 +86,6 @@ const BookPage = ({ params }) => {
                                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                             <p>epub {i + 1}</p>
                                         </a>
-
                                     )
                                 })}
                             </div>
@@ -107,7 +102,6 @@ const BookPage = ({ params }) => {
                                             className="bg-blue-600 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                             <p>Drive {i + 1}</p>
                                         </a>
-
                                     )
                                 })}
                             </div>
@@ -117,21 +111,15 @@ const BookPage = ({ params }) => {
                 </div>
             </section>
 
-
             <section className='flex flex-col'>
-
                 {pdfversion && (
                     <div className="w-full bg-black ">
                         <PdfViewer pdfUrl={pdfversion} />
                     </div>
                 )}
             </section>
-
         </main>
-
-
-
     )
 }
 
-export default BookPage
+export default BookPage;

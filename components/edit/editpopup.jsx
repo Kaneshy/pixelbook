@@ -1,14 +1,15 @@
 'use client'
-import { addnewcinema } from '@/libs/actions/db-actions';
+import { addnewcinema, EditandUpdate, FetchBook } from '@/libs/actions/db-actions';
 import React, { useEffect, useRef, useState } from 'react'
 import { IoMdClose } from "react-icons/io";
+import WidgetTags from '../widgetTags';
 import { bookGenres } from '@/constants/format';
 import { IoAdd } from "react-icons/io5";
-import WidgetTags from '../widgetTags';
+import CdlimageComp from './cdlimage';
 
 
 
-const Cinemapopup = ({ isopen, setisopen }) => {
+const Editpopup = ({ isopen, setisopen, bookId }) => {
 
     const [previewImage, setPreviewImage] = useState("");
     const formRef = useRef(null)
@@ -18,34 +19,35 @@ const Cinemapopup = ({ isopen, setisopen }) => {
     const [selectedClothing, setSelectedClothing] = useState([]);
     const [conterG, setconterG] = useState(1)
     const [openIndexes, setOpenIndexes] = useState(Array(conterG).fill(false));
+    const [colorB, setcolorB] = useState('#eeeeee')
+    const [colorC, setcolorC] = useState('#c9c9c9')
+    const [texta, settexta] = useState('#eeeeee')
+    const [bookData, setBookData] = useState({
+        id: bookId,
+        title: '',
+        author: '',
+        summary: '',
+        language: '',
+        genres: [],
+        colors: { colorB: '#eeeeee', colorC: '#c9c9c9' },
+        links: [],
+        coverurl: '',
+        condition: '',
+    });
 
     const handleImageChange = (event) => {
         const file = event.target.files[0];
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             setPreviewImage(imageUrl);
+            setBookData({ ...bookData, coverurl: imageUrl })
         }
     };
 
-    useEffect(() => {
-        if (bookCldinfo.secure_url) {
-            setPreviewImage(bookCldinfo.secure_url.replace(".pdf", ".jpg"))
-        }
-    }, [bookCldinfo])
 
     useEffect(() => {
         console.log(conterG, bookversions)
     }, [conterG])
-
-    useEffect(() => {
-      
-        
-    
-      return () => {
-        second
-      }
-    }, [third])
-    
 
 
 
@@ -66,7 +68,7 @@ const Cinemapopup = ({ isopen, setisopen }) => {
     }, [setisopen]);
 
     const sendDataActions = async (formData) => {
-        const res = await addnewcinema(formData, bookCldinfo, selectedClothing, bookversions)
+        const res = await EditandUpdate(bookData, formData, bookversions, bookId)
     }
 
 
@@ -80,6 +82,11 @@ const Cinemapopup = ({ isopen, setisopen }) => {
         }
     }
 
+    useEffect(() => {
+      setBookData({ ...bookData, genres: selectedClothing })
+    }, [selectedClothing])
+
+
     const toggleIndex = (index) => {
         setOpenIndexes((prev) => {
             const newOpenIndexes = [...prev];
@@ -87,6 +94,52 @@ const Cinemapopup = ({ isopen, setisopen }) => {
             return newOpenIndexes;
         });
     };
+
+
+    const handleonchangecolor = (e) => {
+        console.log(e.target.value)
+        setcolorB(e.target.value)
+    }
+    const handleonchangecolorb = (e) => {
+        console.log(e.target.value)
+        setcolorC(e.target.value)
+    }
+
+    const handleonchantext = (e) => {
+        handleonchangecolor(e)
+        handleonchangecolorb(e)
+        console.log(e.target.value)
+        settexta(e.target.value)
+    }
+
+    useEffect(() => {
+
+    }, [colorB, colorC])
+
+    useEffect(() => {
+
+    }, [texta])
+
+    useEffect(() => {
+      setBookData({...bookData, coverurl: previewImage})
+    }, [previewImage])
+    
+
+
+
+    //fetch data
+
+    useEffect(() => {
+        const fetchData = async () => {
+            const res = await FetchBook(bookId); // Assuming you fetch this from your backend
+            setBookData(res);
+            console.log(res)
+            setPreviewImage(res.coverurl)
+            setSelectedClothing(res.genres)
+        };
+        fetchData();
+    }, [bookId]);
+
 
 
     return (
@@ -106,7 +159,7 @@ const Cinemapopup = ({ isopen, setisopen }) => {
 
 
                 {Array.from({ length: conterG }).map((_, index) => (
-                    <div key={index} className='flex flex-col'>
+                    <div key={index} className='flex flex-col p-2 border border-slate-400 '>
                         <label className="uppercase nerko-one-regular">Book (pdf):</label>
                         {bookCldinfo.display_name && (
                             <div className='w-full p-2 text-center rounded-lg bg-[#f7dfc9]'>{bookCldinfo.display_name}</div>
@@ -147,30 +200,68 @@ const Cinemapopup = ({ isopen, setisopen }) => {
 
 
 
-                <div className='flex flex-col gap-4'>
+                <div className='flex flex-col gap-4 w-full'>
                     {previewImage && (
-                        <img src={previewImage} alt="Selected" className="max-w-full h-auto rounded-md shadow-lg mb-4" />
+                        <div
+                            className='flex s justify-center w-full  container '>
+                            <div className='flex relative shadow-c ck cc'>
+                                <div
+                                    style={{
+                                        background: `linear-gradient(90deg, ${bookData.colors.colorB} 0%, ${bookData.colors.colorC} 10%)`,
+                                    }}
+                                    className=' p-2 rounded-l- h-full  '></div>
+                                <div
+                                    style={{ background: `linear-gradient(90deg, ${bookData.colors.colorB} 80%, ${bookData.colors.colorC} 100%)` }}
+                                    className='p-1  h-full bg-[#dedede]'></div>
+                                <div
+                                    style={{ background: `linear-gradient(90deg, ${bookData.colors.colorB} 0%, ${bookData.colors.colorC} 10%)` }}
+                                    className='p-[2px]  h-full bg-[#adadad]'></div>
+                            </div>
+                            <div
+                                style={{ backgroundColor: `${bookData.colors.colorB}` }}
+                                className={`shadow-b m-[8px] relative rounded-l-sm aspect-r-a  bg-[#661111] cg `}>
+
+                                <img
+                                    className='p-1  aspect-r-a  h-full max-h-[350px] w-full  '
+                                    src={previewImage} alt="" />
+                            </div>
+
+                        </div>
                     )}
                     <div className='w-full flex flex-col gap-4'>
-                        <label
-                            htmlFor="image"
-                            className="mt-4  uppercase nerko-one-regular text-white bg-[#C5705D] text-center py-2 px-4 rounded-md hover:bg-[#ce998d] focus:outline-none focus:ring-2 focus:ring-blue-400 focus:ring-opacity-50"
-                        >
-                            NEW COVER
-                        </label>
+                        
                         <div className="flex  flex-col items-center">
-                            <input
-                                type="file"
-                                id="image"
-                                onChange={handleImageChange}
-                                name="image"
-                                accept="image/*"
-                                className="hidden"
-                            />
-
+                            
+                            <CdlimageComp setPreviewImage={setPreviewImage} />
                         </div>
                     </div>
                 </div>
+
+                <section className='text-sm flex flex-col gap-4 right-2 '>
+                    <label className="uppercase nerko-one-regular">Select colors:</label>
+                    <div className='flex gap-2 items-center' >
+                        <input
+                            placeholder='#0000'
+                            onChange={handleonchantext}
+                            className='eSyDvA' type="text" />
+
+                    </div>
+
+                    <div className='flex justify-evenly p-4 bg-black'>
+                        <input
+                            type="color"
+                            value={bookData.colors.colorB || '#eeeeee'}
+                            onChange={(e) => setBookData({ ...bookData, colors: { ...bookData.colors, colorB: e.target.value } })}
+                            className="mr-2"
+                        />
+                        <input
+                            type="color"
+                            value={bookData.colors.colorC || '#c9c9c9'}
+                            onChange={(e) => setBookData({ ...bookData, colors: { ...bookData.colors, colorC: e.target.value } })}
+                            className="ml-2"
+                        />
+                    </div>
+                </section>
 
 
 
@@ -178,6 +269,8 @@ const Cinemapopup = ({ isopen, setisopen }) => {
                 <label htmlFor="title" className="uppercase nerko-one-regular">Title:</label>
                 <textarea
                     placeholder="Futurama"
+                    value={bookData.title || ''}
+                    onChange={(e) => setBookData({ ...bookData, title: e.target.value })}
                     id="title"
                     name="title"
                     required
@@ -187,6 +280,8 @@ const Cinemapopup = ({ isopen, setisopen }) => {
                 <label htmlFor="author" className="uppercase nerko-one-regular">Autor:</label>
                 <textarea
                     placeholder="Futurama"
+                    value={bookData.author || ''}
+                    onChange={(e) => setBookData({ ...bookData, author: e.target.value })}
                     id="author"
                     name="author"
                     required
@@ -198,6 +293,8 @@ const Cinemapopup = ({ isopen, setisopen }) => {
                 <label className="uppercase nerko-one-regular">Lenguage:</label>
                 <select
                     name="language"
+                    value={bookData.language || 'english'}
+                    onChange={(e) => setBookData({ ...bookData, language: e.target.value })}
                     className="border-2 uppercase nerko-one-regular rounded-md p-2  bg-[#C5705D] w-full  focus:ring-[#C5705D]"
                 >
                     <option value="english">english</option>
@@ -282,6 +379,8 @@ const Cinemapopup = ({ isopen, setisopen }) => {
                 <label htmlFor='condition' className="uppercase nerko-one-regular">Condition:</label>
                 <select
                     name="condition"
+                    value={bookData.condition || ''}
+                    onChange={(e) => setBookData({ ...bookData, condition: e.target.value })}
                     className="border-2 uppercase nerko-one-regular rounded-md p-2  bg-[#C5705D] w-full  focus:ring-[#C5705D]"
                 >
                     <option value="ilustrated">ilustrated book</option>
@@ -307,6 +406,8 @@ const Cinemapopup = ({ isopen, setisopen }) => {
 
                 <label htmlFor="summary" className="uppercase nerko-one-regular">Summary:</label>
                 <textarea
+                    value={bookData.summary || ''}
+                    onChange={(e) => setBookData({ ...bookData, summary: e.target.value })}
                     type="text"
                     placeholder="1"
                     id="summary"
@@ -326,4 +427,4 @@ const Cinemapopup = ({ isopen, setisopen }) => {
     )
 }
 
-export default Cinemapopup
+export default Editpopup

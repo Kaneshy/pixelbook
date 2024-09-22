@@ -68,13 +68,3 @@ const Books = mongoose.models && mongoose.models.Books
     : mongoose.model('Books', BooksSchema);
 
 export default Books;
-
-
-versions: [
-    {
-        id: 232424,
-        link: '',
-        desc: '',
-        page: ''
-    }
-]

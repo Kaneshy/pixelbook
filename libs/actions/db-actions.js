@@ -5,9 +5,77 @@ import Books from '../models/Books';
 import { connectToDB } from '../mongoose';
 
 
+export const EditandUpdate = async (bookData, formData, bookversions, bookId) => {
+
+
+
+
+
+    let links = formData.getAll('link').filter(item => item !== '');
+
+    const pdflinks = links.filter(file => file.endsWith('.pdf'));
+    const pdfFiles = bookversions.filter(file => file.endsWith('.pdf'));
+
+    const epublinks = links.filter(file => file.endsWith('.epub'));
+    const epubFiles = bookversions.filter(file => file.endsWith('.epub'));
+
+    const moreLinks = links.filter(file => !file.endsWith('.pdf') && !file.endsWith('.epub'));
+
+    // Combine PDF and EPUB arrays
+    const allPDFs = [...pdflinks, ...pdfFiles, ...bookData.versions];
+    const allEPUBs = [...epublinks, ...epubFiles, ...bookData.epublinks];
+
+    const allLinks = [...(bookData.links || []), ...moreLinks];
+    console.log(55, allLinks)
+
+    let coverUrl;
+
+    await connectToDB(); // Ensure database connection
+
+    console.log(bookData)
+
+    const {
+        title,
+        author,
+        coverurl,
+        language,
+        condition,
+        summary,
+        genres,
+        colors,
+        bookdata
+    } = bookData;
+    console.log(99, bookData)
+
+
+    try {
+        const newBook = await Books.findByIdAndUpdate(bookId, {
+            title,
+            author,
+            coverurl, // Save the Cloudinary image URL
+            language,
+            condition,
+            summary,
+            genres,
+            versions: allPDFs,
+            links: moreLinks,
+            colors,
+            epublinks: allEPUBs,
+            bookdata
+        });
+
+        console.log('New book created:', newBook);
+        return true; // Indicate success
+    } catch (err) {
+        console.error('Error creating book:', err.message);
+        return null; // Handle error accordingly
+    }
+
+}
+
 export const FetchBook = async (bookId) => {
     console.log('Fetching book...', bookId);
-    
+
     await connectToDB();
 
     try {
@@ -27,7 +95,7 @@ export const FetchBook = async (bookId) => {
 
 export const FetchAllBooks = async () => {
     console.log('Fetching books...');
-    
+
     await connectToDB();
 
     try {
@@ -118,7 +186,7 @@ export const addnewcinema = async (formData, bookCldinfo, selectedClothing, book
             summary,
             genres,
             versions: allPDFs,
-            links:moreLinks,
+            links: moreLinks,
             series,
             colors: {
                 colorB,

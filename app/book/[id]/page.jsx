@@ -1,5 +1,6 @@
 'use client'
 import Bookthreed from '@/components/books/bookthreed'
+import EditPage from '@/components/edit/edit'
 import PdfViewer from '@/components/pdf/pdfviewer'
 import { FetchBook } from '@/libs/actions/db-actions'
 import React, { useEffect, useState } from 'react'
@@ -8,6 +9,7 @@ const BookPage = ({ params }) => {
 
     const [book, setbook] = useState({})
     const [pdfversion, setpdfversion] = useState('')
+    const [openedit, setopenedit] = useState(false)
 
     useEffect(() => {
         const fetchbook = async () => {
@@ -34,7 +36,9 @@ const BookPage = ({ params }) => {
                         <h2 className="text-2xl font-bold mb-2">{book.title}</h2>
                         <p className="text-sm text-gray-300">{book.author}</p>
                     </div>
-
+                    <div className='w-full p-2'>
+                        <EditPage bookId={book._id} />
+                    </div>
                     <div className="px-6 py-4">
                         <div className="flex items-center mb-4">
                             <span className="text-gray-600 font-semibold">Language: </span>

@@ -7,7 +7,7 @@ import { getAuth, GoogleAuthProvider } from 'firebase/auth'
 
 
 const firebaseConfig = {
-  apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
+  apiKey: process.env.NEXT_PUBLIC_API_KEY_FB,
   authDomain: process.env.NEXT_PUBLIC_FIREBASE_AUTH,
   projectId: process.env.NEXT_PUBLIC_FIREBASE_PROJECTID,
   storageBucket: process.env.NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET,

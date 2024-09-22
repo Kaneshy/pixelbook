@@ -29,7 +29,8 @@ export const bookGenres = [
             "Drama",
             "Gothic",
             "bonds and connections ",
-            "Children"
+            "Children",
+            "Historical fiction"
 
 
         ],

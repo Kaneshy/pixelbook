@@ -5,6 +5,7 @@ import { IoMdClose } from "react-icons/io";
 import WidgetTags from '../widgetTags';
 import { bookGenres } from '@/constants/format';
 import { IoAdd } from "react-icons/io5";
+import UploadPDF from '../fbase/uploadPDF';
 
 
 
@@ -99,6 +100,10 @@ const Cinemapopup = ({ isopen, setisopen }) => {
     }
 
     useEffect(() => {
+        console.log(33, bookversions)
+    }, [bookversions])
+
+    useEffect(() => {
 
     }, [colorB, colorC])
 
@@ -152,6 +157,11 @@ const Cinemapopup = ({ isopen, setisopen }) => {
                         )}
                     </div>
                 ))}
+                <div className='w-full flex flex-col gap-2'>
+                <label className="uppercase nerko-one-regular">BOOKS (for file size +10MB):</label>
+                    <UploadPDF setbookversions={setbookversions} bookversions={bookversions}  />
+                </div>
+
 
                 <div className='w-full gap-4 flex items-center justify-center'>
                     <label className="uppercase nerko-one-regular">More PDF versions? </label>

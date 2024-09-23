@@ -70,6 +70,9 @@ const Editpopup = ({ isopen, setisopen, bookId }) => {
 
     const sendDataActions = async (formData) => {
         const res = await EditandUpdate(bookData, formData, bookversions, bookId)
+        if(res===true){
+            setisopen(false)
+        }
     }
 
 

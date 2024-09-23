@@ -22,7 +22,7 @@ const Allbook = () => {
 
     return (
         <div className="">
-            <section className=" pb-12 min-h-screen z bg-[#dedede] select-none">
+            <section className=" pb-12 min-h-screen z bg-[#2D0201] select-none">
                 <section className="grid-b p-4 ">
                     {books.map((x, i) => {
                         return (

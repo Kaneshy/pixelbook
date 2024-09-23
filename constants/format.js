@@ -35,6 +35,7 @@ export const bookGenres = [
 
         ],
         science: [
+            "Art",
             "Physics",
             "Chemistry",
             "Biology",

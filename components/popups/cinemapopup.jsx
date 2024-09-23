@@ -61,6 +61,9 @@ const Cinemapopup = ({ isopen, setisopen }) => {
 
     const sendDataActions = async (formData) => {
         const res = await addnewcinema(formData, bookCldinfo, selectedClothing, bookversions, colorB, colorC)
+        if(res===true ) {
+            setisopen(false)
+        }
     }
 
 

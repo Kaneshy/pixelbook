@@ -61,7 +61,7 @@ export const EditandUpdate = async (bookData, formData, bookversions, bookId) =>
             summary,
             genres,
             versions: allPDFs,
-            links: moreLinks,
+            links: allLinks,
             colors,
             epublinks: allEPUBs,
             bookdata

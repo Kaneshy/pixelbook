@@ -127,7 +127,7 @@ const PdfViewer = ({ pdfUrl }) => {
   useEffect(() => {
 
     if(window.innerWidth < 500 ) {
-      setZoomLevel(100);
+      setZoomLevel(75);
       setIsTwoPageView((prevState) => !prevState)
     }
     
@@ -135,15 +135,17 @@ const PdfViewer = ({ pdfUrl }) => {
 
   return (
     <div className="">
-
-      <div className="w-full flex items-center max-sm:flex-col justify-between text-center ">
+      <div>
+        
+      </div>
+      <div className="w-full  flex items-center  justify-between text-center ">
         <button
           className="w-full p-2 text-white  hover:bg-zinc-700 bg-zinc-800"
           onClick={goToPreviousPage} disabled={pageNumber === 1}>
           Previous
         </button>
         <button
-          className="text-white boder hover:bg-zinc-600 border-zinc-500 py-2 px-6"
+          className="text-white max-sm:hidden boder hover:bg-zinc-600 border-zinc-500 py-2 px-6"
           onClick={() => setPageNumber(1)}>
           <IoIosArrowBack />
         </button>
@@ -154,13 +156,13 @@ const PdfViewer = ({ pdfUrl }) => {
           type="number"
           min={1}
           max={totalPages}
-          className="bg-zinc-950 items-center text-zinc-500 p-2"
+          className="bg-zinc-950 max-sm:hidden items-center text-zinc-500 p-2"
         />
-        <p className="bg-zinc-950 items-center text-zinc-500 p-2">of</p>
-        <span className="bg-zinc-950 items-center text-zinc-500 p-2">
+        <p className="bg-zinc-950 max-sm:hidden items-center text-zinc-500 p-2">of</p>
+        <span className="bg-zinc-950 max-sm:hidden items-center text-zinc-500 p-2">
           {totalPages}
         </span>
-        <button className="text-white boder hover:bg-zinc-600 border-zinc-500 py-2 px-6" 
+        <button className="text-white boder max-sm:hidden hover:bg-zinc-600 border-zinc-500 py-2 px-6" 
         onClick={togglePageView}>
           <PiBookOpenText />
 

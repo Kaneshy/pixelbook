@@ -4,6 +4,7 @@ import EditPage from '@/components/edit/edit'
 import DeliverPDF from '@/components/fbase/deliverPDF'
 import UploadPDF from '@/components/fbase/uploadPDF'
 import PdfViewer from '@/components/pdf/pdfviewer'
+import Footer from '@/components/ui/footer'
 import { FetchBook } from '@/libs/actions/db-actions'
 import { handleDownload } from '@/libs/actions/firebase-actions'
 import React, { useEffect, useState } from 'react'
@@ -50,7 +51,9 @@ const BookPage = ({ params }) => {
     
 
     return (
-        <main className='w-full min-h-screen bg-black'>
+        <>
+        
+        <main className='w-full min-h-screen bg-[#000]'>
 
             <section className='flex max-sm:flex-col'>
                 <div className=''>
@@ -100,6 +103,23 @@ const BookPage = ({ params }) => {
                                             className="bg-blue-600  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                             <p>pdf {i + 1}</p>
                                         </button>
+                                    )
+                                })}
+                            </div>
+                        </div>
+
+                        <div className="mb-2 flex flex-col gap-2">
+                            <p className="text-gray-600 font-semibold">Download PDF:</p>
+                            <div className="px-2 flex gap-2 py-4 bg-gray-50">
+                                {book.versions && book.versions.map((x, i) => {
+                                    return (
+                                        <a
+                                            href={x}
+                                            target='_blank'
+                                            key={`book${i}`}
+                                            className="bg-blue-600  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
+                                            <p>pdf {i + 1}</p>
+                                        </a>
                                     )
                                 })}
                             </div>
@@ -162,6 +182,8 @@ const BookPage = ({ params }) => {
                 <p>No PDF version available.</p>
             )}
         </main>
+        <Footer color={'#000'} />
+        </>
     )
 }
 

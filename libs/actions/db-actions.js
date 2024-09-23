@@ -13,13 +13,16 @@ export const EditandUpdate = async (bookData, formData, bookversions, bookId) =>
 
     let links = formData.getAll('link').filter(item => item !== '');
 
-    const pdflinks = links.filter(file => file.endsWith('.pdf'));
-    const pdfFiles = bookversions.filter(file => file.endsWith('.pdf'));
+    // Filter for URLs containing '.pdf'
+    const pdflinks = links.filter(file => file.includes('.pdf'));
+    const pdfFiles = Object.values(bookversions).filter(file => file.includes('.pdf'));
 
-    const epublinks = links.filter(file => file.endsWith('.epub'));
-    const epubFiles = bookversions.filter(file => file.endsWith('.epub'));
+    // Filter for URLs containing '.epub'
+    const epublinks = links.filter(file => file.includes('.epub'));
+    const epubFiles = Object.values(bookversions).filter(file => file.includes('.epub'));
 
-    const moreLinks = links.filter(file => !file.endsWith('.pdf') && !file.endsWith('.epub'));
+    // Filter for URLs that do not contain '.pdf' or '.epub'
+    const moreLinks = links.filter(file => !file.includes('.pdf') && !file.includes('.epub'));
 
     // Combine PDF and EPUB arrays
     const allPDFs = [...pdflinks, ...pdfFiles, ...bookData.versions];
@@ -137,7 +140,7 @@ export const addnewcinema = async (formData, bookCldinfo, selectedClothing, book
     if (links.length === 0) {
         links = []; // No links provided
     }
-    
+
     // Filter for URLs containing '.pdf'
     const pdflinks = links.filter(file => file.includes('.pdf'));
     const pdfFiles = Object.values(bookversions).filter(file => file.includes('.pdf'));

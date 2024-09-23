@@ -57,7 +57,7 @@ const UploadPDF = ({ setbookversions, bookversions }) => {
     };
 
     return (
-        <div className="max-w-md mx-auto p-6 bg-white shadow-md rounded-lg">
+        <div className="w-full p-6 border border-zinc-400 shadow-md">
             <h2 className="text-2xl font-semibold text-gray-700 mb-4">Upload PDF</h2>
             <input
                 type="file"

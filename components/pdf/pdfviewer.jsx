@@ -11,7 +11,7 @@ const PdfViewer = ({ pdfUrl }) => {
   const [pageNumber, setPageNumber] = useState(1);
   const [totalPages, setTotalPages] = useState(0);
   const [isTwoPageView, setIsTwoPageView] = useState(true); // Toggle for one-page/two-page view
-  const [zoomLevel, setZoomLevel] = useState(100); // State for zoom level (in percentage)
+  const [zoomLevel, setZoomLevel] = useState(150); // State for zoom level (in percentage)
   const canvasRefs = [useRef(null), useRef(null)]; // Two refs for two canvases
 
   // Load PDF document when pdfUrl changes
@@ -124,10 +124,19 @@ const PdfViewer = ({ pdfUrl }) => {
     setZoomLevel(parseInt(e.target.value, 10)); // Update the zoom level state
   };
 
+  useEffect(() => {
+
+    if(window.innerWidth < 500 ) {
+      setZoomLevel(100);
+      setIsTwoPageView((prevState) => !prevState)
+    }
+    
+  }, [pdfUrl]);
+
   return (
     <div className="">
 
-      <div className="w-full flex items-center justify-between text-center ">
+      <div className="w-full flex items-center max-sm:flex-col justify-between text-center ">
         <button
           className="w-full p-2 text-white  hover:bg-zinc-700 bg-zinc-800"
           onClick={goToPreviousPage} disabled={pageNumber === 1}>
@@ -151,7 +160,8 @@ const PdfViewer = ({ pdfUrl }) => {
         <span className="bg-zinc-950 items-center text-zinc-500 p-2">
           {totalPages}
         </span>
-        <button className="text-white boder hover:bg-zinc-600 border-zinc-500 py-2 px-6" onClick={togglePageView}>
+        <button className="text-white boder hover:bg-zinc-600 border-zinc-500 py-2 px-6" 
+        onClick={togglePageView}>
           <PiBookOpenText />
 
         </button>
@@ -184,6 +194,8 @@ const PdfViewer = ({ pdfUrl }) => {
           <option value={150}>150%</option>
           <option value={175}>175%</option>
           <option value={200}>200%</option>
+          <option value={250}>200%</option>
+          <option value={300}>200%</option>
         </select>
       </div>
 

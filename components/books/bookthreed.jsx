@@ -2,7 +2,7 @@ import React from 'react'
 
 const Bookthreed = ({colorB, colorC, coverurl}) => {
     return (
-        <section className="min-w-[350px] h-full  bg-[#ffffff]  select-none flex items-center justify-center">
+        <section className="max-sm:min-w-[100px]  min-w-[350px] h-full bg-[#ffffff]  select-none flex items-center justify-center">
             <div
                 className='flex s p-4  container '>
                 <div className='flex relative shadow-c ck cc'>

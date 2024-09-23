@@ -6,6 +6,7 @@ import WidgetTags from '../widgetTags';
 import { bookGenres } from '@/constants/format';
 import { IoAdd } from "react-icons/io5";
 import CdlimageComp from './cdlimage';
+import UploadPDF from '../fbase/uploadPDF';
 
 
 
@@ -198,7 +199,10 @@ const Editpopup = ({ isopen, setisopen, bookId }) => {
                     </div>
                 </div>
 
-
+                <div className='w-full flex flex-col gap-2'>
+                    <label className="uppercase nerko-one-regular">BOOKS (for file size +10MB):</label>
+                    <UploadPDF setbookversions={setbookversions} bookversions={bookversions} />
+                </div>
 
                 <div className='flex flex-col gap-4 w-full'>
                     {previewImage && (

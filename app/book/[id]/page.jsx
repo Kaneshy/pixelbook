@@ -1,9 +1,11 @@
 'use client'
 import Bookthreed from '@/components/books/bookthreed'
 import EditPage from '@/components/edit/edit'
+import DeliverPDF from '@/components/fbase/deliverPDF'
 import UploadPDF from '@/components/fbase/uploadPDF'
 import PdfViewer from '@/components/pdf/pdfviewer'
 import { FetchBook } from '@/libs/actions/db-actions'
+import { handleDownload } from '@/libs/actions/firebase-actions'
 import React, { useEffect, useState } from 'react'
 
 const BookPage = ({ params }) => {
@@ -11,6 +13,28 @@ const BookPage = ({ params }) => {
     const [book, setbook] = useState({})
     const [pdfversion, setpdfversion] = useState('')
     const [openedit, setopenedit] = useState(false)
+
+    const handleViewPdf = async (x) => {
+        console.log(33, x)
+        if (x.startsWith("https://firebasestorage.googleapis.com")) {
+            try {
+                setopenedit(true)
+                setpdfversion(x)
+            } catch (error) {
+                console.log(error)
+            }
+
+        } else {
+            setopenedit(false)
+            setpdfversion(x)
+        }
+    }
+
+    const handleDownload = async (pdfName) => {
+        console.log(pdfName)
+
+    };
+
 
     useEffect(() => {
         const fetchbook = async () => {
@@ -23,11 +47,13 @@ const BookPage = ({ params }) => {
         fetchbook()
     }, [params.id])
 
+    
+
     return (
         <main className='w-full min-h-screen bg-black'>
 
-            <section className='flex'>
-                <div>
+            <section className='flex max-sm:flex-col'>
+                <div className=''>
                     {book.colors && (
                         <Bookthreed colorB={book.colors.colorB} colorC={book.colors.colorC} coverurl={book.coverurl} />
                     )}
@@ -70,7 +96,7 @@ const BookPage = ({ params }) => {
                                     return (
                                         <button
                                             key={`book${i}`}
-                                            onClick={() => setpdfversion(x)}
+                                            onClick={() => handleViewPdf(x)}
                                             className="bg-blue-600  hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">
                                             <p>pdf {i + 1}</p>
                                         </button>
@@ -116,13 +142,25 @@ const BookPage = ({ params }) => {
                 </div>
             </section>
 
-            <section className='flex flex-col'>
-                {pdfversion && (
-                    <div className="w-full bg-black ">
-                        <PdfViewer pdfUrl={pdfversion} />
-                    </div>
-                )}
-            </section>
+            {pdfversion ? (
+                openedit ? (
+                    <section className="flex flex-col">
+                        <div>
+                            <DeliverPDF pdfversion={pdfversion} />
+                        </div>
+                    </section>
+                ) : (
+                    <section className="flex flex-col">
+                        <div>
+                            <div className="w-full bg-black">
+                                <PdfViewer pdfUrl={pdfversion} />
+                            </div>
+                        </div>
+                    </section>
+                )
+            ) : (
+                <p>No PDF version available.</p>
+            )}
         </main>
     )
 }

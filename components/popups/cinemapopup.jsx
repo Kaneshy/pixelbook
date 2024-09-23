@@ -157,11 +157,6 @@ const Cinemapopup = ({ isopen, setisopen }) => {
                         )}
                     </div>
                 ))}
-                <div className='w-full flex flex-col gap-2'>
-                <label className="uppercase nerko-one-regular">BOOKS (for file size +10MB):</label>
-                    <UploadPDF setbookversions={setbookversions} bookversions={bookversions}  />
-                </div>
-
 
                 <div className='w-full gap-4 flex items-center justify-center'>
                     <label className="uppercase nerko-one-regular">More PDF versions? </label>
@@ -173,7 +168,10 @@ const Cinemapopup = ({ isopen, setisopen }) => {
                     </div>
                 </div>
 
-
+                <div className='w-full flex flex-col gap-2'>
+                    <label className="uppercase nerko-one-regular">BOOKS (for file size +10MB):</label>
+                    <UploadPDF setbookversions={setbookversions} bookversions={bookversions} />
+                </div>
 
                 <div className='flex flex-col gap-4 w-full'>
                     {previewImage && (

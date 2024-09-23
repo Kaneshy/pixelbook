@@ -32,9 +32,9 @@ export default function RootLayout({ children }) {
         <main>
           {children}
         </main>
-        <div className="fixed bottom-0 w-full z-10 ">
+        {/* <div className="fixed bottom-0 w-full z-10 ">
           <BottonBar />
-        </div>
+        </div> */}
       </body>
     </html>
   );

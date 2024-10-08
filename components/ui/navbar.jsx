@@ -1,10 +1,11 @@
 import Link from 'next/link'
 import React from 'react'
 
-const Navbar = () => {
+const Navbar = ({colorB, colorC}) => {
   return (
-    <nav className='w-full  text-white bg-black py-4 px-4 flex justify-between'>
-        <Link className='font-bold' href={'/'}>PIXELBOOK</Link>
+    <nav
+      className='w-full z-50   py-4 px-4 flex justify-center'>
+      <Link className='font-bold bg-opacity-10 px-4 bg-blur-lg  rounded-full ' href={'/'}>PIXELBOOK</Link>
     </nav>
   )
 }

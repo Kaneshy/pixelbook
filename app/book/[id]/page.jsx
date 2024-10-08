@@ -5,6 +5,7 @@ import DeliverPDF from '@/components/fbase/deliverPDF'
 import UploadPDF from '@/components/fbase/uploadPDF'
 import PdfViewer from '@/components/pdf/pdfviewer'
 import Footer from '@/components/ui/footer'
+import Navbar from '@/components/ui/navbar'
 import { FetchBook } from '@/libs/actions/db-actions'
 import { handleDownload } from '@/libs/actions/firebase-actions'
 import React, { useEffect, useState } from 'react'
@@ -52,8 +53,12 @@ const BookPage = ({ params }) => {
 
     return (
         <>
-
-            <main className='w-full min-h-screen bg-[#000]'>
+            <main 
+            style={{ background: `linear-gradient(90deg, ${book.colors?.colorB} 20%, ${book.colors?.colorC} 70%)` }}
+            className='w-full min-h-screen '>
+                <div className="sticky bg-blur-sm text-white bg-black  bg-opacity-30 top-0 z-50">
+                    <Navbar />
+                </div>
 
                 <section className='flex max-sm:flex-col'>
                     <div className=''>
@@ -61,21 +66,20 @@ const BookPage = ({ params }) => {
                             <Bookthreed colorB={book.colors.colorB} colorC={book.colors.colorC} coverurl={book.coverurl} />
                         )}
                     </div>
-                    <div className="w-full mx-auto bg-white shadow-lg overflow-hidden">
+                    <div className="w-full mx-auto  shadow-lg overflow-hidden">
                         {book.colors && (
-                            <div 
-                            style={{
-                                background: `linear-gradient(90deg, ${book.colors.colorB} 0%, ${book.colors.colorC} 50%)`,
-                            }}
-                            className={` text-white px-6 py-4`}>
+                            <div
+                               
+                                className={` text-gray-400 px-6 py-4`}>
                                 <h2 className="text-2xl font-bold mb-2">{book.title}</h2>
-                                <p className="text-sm text-gray-300">{book.author}</p>
+                                <p className="text-sm text-gray-600">{book.author}</p>
                             </div>)}
 
                         <div className='w-full flex p-2'>
                             <EditPage bookId={book._id} />
                         </div>
-                        <div className="px-6 py-4">
+                        <div className="px-6 py-4 bg-white"
+                        >
                             <div className="flex items-center mb-4">
                                 <span className="text-gray-600 font-semibold">Language: </span>
                                 <span className="ml-2 text-gray-800">{book.language}</span>

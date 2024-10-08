@@ -2,6 +2,7 @@
 import { FetchAllBooks } from "@/libs/actions/db-actions";
 import Link from "next/link";
 import { useEffect, useState } from "react";
+import Navbar from "../ui/navbar";
 
 
 const Allbook = () => {
@@ -19,10 +20,13 @@ const Allbook = () => {
         fetchbooksdata()
     }, [])
 
-
+    // bg-[#2D0201] bg-[#f0ecec]
     return (
         <div className="">
-            <section className=" pb-12 min-h-screen z bg-[#2D0201] select-none">
+            <div className="sticky text-white bg-[#202124] top-0 z-50">
+                    <Navbar />
+            </div>
+            <section className=" pb-12 min-h-screen z bg-[#F5EFFF]  select-none">
                 <section className="grid-b p-4 ">
                     {books.map((x, i) => {
                         return (
@@ -52,8 +56,8 @@ const Allbook = () => {
                                     </div>
                                 </div>
                                 <div className="w-full max-w-[260px]  flex flex-col justify-center text-center">
-                                    <div className=" font-bold px-4">{x.title}</div>
-                                    <div className="w-full justify-end text-end text-sm">{x.author}</div>
+                                    <div className=" px-4 font-bold">{x.title}</div>
+                                    <div className="w-full justify-end text-end gowun-batang-bold text-sm">{x.author}</div>
                                 </div>
                             </div>
 
